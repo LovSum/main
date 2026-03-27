@@ -1,0 +1,4 @@
+zen
+zed
+ghostty
+pavucontrol
