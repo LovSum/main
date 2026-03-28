@@ -120,7 +120,8 @@ ShellRoot {
                             command: ["sh", "-c", "nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2 | head -n 1"]
                             running: true
                             stdout: StdioCollector {
-                                onStreamFinished: (s) => wifiText.text = "📶 " + (String(s).trim() === "" ? "Offline" : String(s).trim())
+                                id: wifiOut
+                                onStreamFinished: wifiText.text = "📶 " + (wifiOut.text.trim() === "" ? "Offline" : wifiOut.text.trim())
                             }
                         }
                         Timer {
@@ -147,7 +148,8 @@ ShellRoot {
                             command: ["sh", "-c", "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100) \"%\"}'"]
                             running: true
                             stdout: StdioCollector {
-                                onStreamFinished: (s) => volText.text = "🔊 " + String(s).trim()
+                                id: volOut
+                                onStreamFinished: volText.text = "🔊 " + volOut.text.trim()
                             }
                         }
                         Timer {
@@ -174,7 +176,8 @@ ShellRoot {
                             command: ["sh", "-c", "cat /sys/class/power_supply/BAT*/capacity | head -n 1"]
                             running: true
                             stdout: StdioCollector {
-                                onStreamFinished: (s) => batText.text = "🔋 " + String(s).trim() + "%"
+                                id: batOut
+                                onStreamFinished: batText.text = "🔋 " + batOut.text.trim() + "%"
                             }
                         }
                         Timer {
