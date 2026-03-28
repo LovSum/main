@@ -38,7 +38,10 @@
 
   # ── GPU ──────────────────────────────────────────────────────
   # OpenGL aktivieren – nötig für Ghostty, Zed und generelles Desktop-Rendering
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
 
   # ── Polkit ───────────────────────────────────────────────────
   # Erlaubt GUI-Passwortabfragen für Admin-Aktionen (WLAN, USB-Mount, etc.)
