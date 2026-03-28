@@ -20,6 +20,7 @@
     ./neovim        # Neovim (minimal – Fallback-Editor für Terminal)
     ./zed           # Zed Editor (Haupt-IDE, GPU-beschleunigt, AI-Integration)
     ./zen           # Zen Browser (Firefox-basiert, Privacy-fokussiert)
+    ./quickshell    # Quickshell Status-Bar (QtQuick, Hyprland-Integration)
   ];
 
   # User-spezifische Pakete (nur für diesen User installiert)

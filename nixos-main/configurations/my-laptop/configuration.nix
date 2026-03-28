@@ -57,6 +57,9 @@
   users.users.user = {
     # Normaler User (kein System-User)
     isNormalUser = true;
+    # Initiales Passwort – wird beim ersten Rebuild gesetzt
+    # Danach mit `passwd` ein sicheres Passwort setzen!
+    initialPassword = "1506";
     # Zusätzliche Gruppen:
     # - wheel: Erlaubt sudo-Nutzung
     # - networkmanager: Erlaubt Netzwerk-Konfiguration ohne sudo
