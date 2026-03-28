@@ -132,7 +132,7 @@ ShellRoot {
         description: "FZF Launcher öffnen"
 
         onPressed: {
-            Hyprland.dispatch("exec ghostty --title='QML Launcher' -e bash ~/bin/fzf-launcher/launcher.sh");
+            Hyprland.dispatch("exec ghostty --title='QML Launcher' -e bash ~/bin/fzf-launcher/launch.sh");
         }
     }
 }

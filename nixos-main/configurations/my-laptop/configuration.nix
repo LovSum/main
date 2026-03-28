@@ -50,7 +50,7 @@
   fonts.packages = with pkgs; [
     jetbrains-mono    # Monospace (Terminal, Editor) – clean, dunkel, technisch
     noto-fonts        # Basis-Font für alle Sprachen (Fallback)
-    noto-fonts-emoji  # Emoji-Support 🎉
+    noto-fonts-color-emoji  # Emoji-Support 🎉
   ];
 
   # User-Account Definition

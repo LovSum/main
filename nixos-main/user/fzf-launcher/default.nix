@@ -3,6 +3,9 @@
 { config, pkgs, ... }:
 
 {
+    # FZF Paket installieren – wird vom Launcher-Script gebraucht
+    home.packages = with pkgs; [ fzf ];
+
     # Launcher-Konfiguration nach ~/.config/fzf-launcher/ kopieren
     home.file.".config/fzf-launcher" = {
 		source = ./config;

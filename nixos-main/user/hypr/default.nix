@@ -12,7 +12,7 @@
         enable = true;
         
 		# Hyprland-Plugins
-		pluginixns = [
+		plugins = [
 			# Scrolling-Layout Plugin – Alternative zum Standard Dwindle/Master Layout
 			pkgs.hyprlandPlugins.hyprscrolling
 		];

@@ -1,4 +1,4 @@
 zen
-zed
+zeditor
 ghostty
 pavucontrol
