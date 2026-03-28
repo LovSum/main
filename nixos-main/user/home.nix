@@ -27,7 +27,8 @@
   home.packages = with pkgs; [
     jetbrains-mono  # Monospace-Font (für Ghostty + Zed)
     brightnessctl   # Bildschirmhelligkeit steuern (Laptop)
-    fastfetch       # Schnelle System-Info Anzeige im Terminal
+    fastfetch       # System-Infos im stylischen Look
+    pavucontrol     # Audio / Volume Control (Mixer)
     hyprshot        # Screenshot-Tool für Hyprland
     playerctl       # Media-Player Steuerung (für Hyprland Media-Keys)
     unzip           # ZIP-Archive entpacken
