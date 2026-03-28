@@ -28,9 +28,9 @@
 
         # Nützliche Aliases:
         # rebuild: NixOS neu bauen mit aktuellem Flake
-        alias rebuild="sudo nixos-rebuild switch --flake . --impure"
-        # cleanup: Alte Nix-Generationen löschen und neu bauen (spart Speicherplatz)
-        alias cleanup="sudo nix-collect-garbage -d && rebuild"
+        alias rebuild="sudo nixos-rebuild switch --flake ~/nixos-config/nixos-main#my-laptop --impure"
+        # cleanup: Alte System-Generationen löschen und Müll entsorgen
+        alias cleanup="sudo nix-collect-garbage -d && sudo nixos-rebuild switch --flake ~/nixos-config/nixos-main#my-laptop"
 
         # Direnv Hook für Bash aktivieren (lädt .envrc Dateien automatisch beim cd)
         eval "$(direnv hook bash)"
