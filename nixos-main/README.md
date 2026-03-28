@@ -1,125 +1,95 @@
-# 🐧 Mein NixOS Setup
+# 🐧 Mein NixOS Laptop Setup
 
-NixOS Flake-Konfiguration mit Hyprland Desktop für meinen Laptop (Ryzen 5500U).
+Eine moderne, Flake-basierte NixOS Konfiguration mit Hyprland. Fokus auf GPU-beschleunigte, schnelle Tools und ein sauberes, dunkles Design (Everforest/Catppuccin-Vibes).
 
-## 🚀 Erstinstallation
+---
 
-### 1. NixOS installieren
-1. NixOS ISO runterladen: [nixos.org/download](https://nixos.org/download) (Minimal ISO reicht)
-2. ISO auf USB-Stick brennen (z.B. mit [Rufus](https://rufus.ie/))
-3. Laptop vom USB-Stick booten → NixOS Installer startet (Konsole)
-4. Festplatte partitionieren und NixOS installieren
-5. Neustarten → Laptop bootet jetzt von der Festplatte (nur Konsole, kein Desktop)
+## 🚀 Die Programme (Was benutze ich?)
 
-### 2. Config-Dateien rüberkopieren (gleicher USB-Stick)
-1. USB-Stick rausziehen
-2. Am Windows-PC den Stick formatieren und den `nixos-main/` Ordner draufkopieren
-3. USB-Stick wieder in den Laptop stecken
+Das System ist minimalistisch aufgebaut. Statt fetter Desktop-Umgebungen (wie KDE oder GNOME) kommen spezialisierte, schnelle Einzelprogramme zum Einsatz:
+
+### Kern-System
+- **Window Manager:** [Hyprland](https://hyprland.org/) (Wayland, Tiling, Scrolling-Layout)
+- **Status-Bar:** [Quickshell](https://quickshell.outfoxxed.me/) (QtQuick-basiert, oben am Bildschirm, zeigt Workspaces & Uhr)
+- **App-Launcher:** Eigenbau mit `fzf` im Terminal (gestartet über Quickshell Keybind)
+- **Wallpaper:** [mpvpaper](https://github.com/GhostNaN/mpvpaper) (Video-Wallpaper im Hintergrund)
+
+### Apps
+- **Terminal:** [Ghostty](https://mitchellh.com/ghostty) (GPU-beschleunigt, extrem schnell, nutzt JetBrains Mono)
+- **Browser:** [Zen Browser](https://zen-browser.app/) (Firefox-basiert, auf Privacy und Design fokussiert)
+- **Code Editor (GUI):** [Zed](https://zed.dev/) (Rust/GPU, extrem schnell, Befehl: `zeditor`)
+- **Code Editor (Terminal):** Neovim (`nvim`, minimal konfiguriert als Fallback)
+
+### Terminal-Tools (TUI)
+- **Dateimanager:** `superfile` (oder `spf`)
+- **System-Monitor:** `btop`
+- **System-Info:** `fastfetch`
+- **Hacker News:** `circumflex`
+
+---
+
+## ⌨️ Die wichtigsten Tastenkürzel (Hyprland)
+
+Die `Super`-Taste (Windows-Taste) ist dein bester Freund.
+
+| Kombination | Was passiert? |
+|-------------|---------------|
+| `Super + Q` | **Terminal öffnen** (Ghostty) |
+| `Super + S` | **App-Launcher öffnen** (Sucht in gui-programs.txt) |
+| `Super + C` | **Fenster schließen** (Kill) |
+| `Super + V` | **Floating umschalten** (Fenster schweben lassen) |
+| `Super + F` | **Screenshot** (Bereich auswählen, landet in der Zwischenablage) |
+| `Super + Maus (Links)` | **Fenster verschieben** (Gedrückt halten) |
+| `Super + Maus (Rechts)`| **Fenster Größe ändern** (Gedrückt halten) |
+| `Super + 1 ... 0` | Zu **Workspace** 1 bis 10 wechseln |
+| `Super + Shift + 1 ... 0` | Aktuelles Fenster auf Workspace verschieben |
+| `Super + Pfeiltasten` | Fokus zwischen Fenstern wechseln |
+
+*Hinweis: Drei-Finger-Wischgeste nach links/rechts auf dem Touchpad wechselt ebenfalls die Workspaces!*
+
+---
+
+## 🔄 Wie aktualisiere oder ändere ich das System?
+
+Da du NixOS nutzt, ist dein System **deklarativ**. Du installierst keine Programme mit `apt install` oder über einen App Store. Stattdessen schreibst du alles in diese Config und baust das System neu.
+
+### 1. Etwas hinzufügen oder ändern
+- Öffne den Ordner `~/nixos-config/nixos-main/` im `zeditor` oder `nvim`.
+- Um ein Programm für dich (den User) zu installieren, trage es in `user/home.nix` bei `home.packages` ein.
+- Speichere die Datei.
+
+### 2. Das System neu bauen (Rebuild)
+Führe nach jeder Änderung diesen Befehl im Terminal aus:
 ```bash
-# Als root einloggen
-# USB-Stick mounten
-sudo mount /dev/sdb1 /mnt/usb
-
-# Config-Dateien kopieren
-cp -r /mnt/usb/nixos-main ~/nixos
-
-# Hardware-Config (von NixOS generiert) in den richtigen Ordner kopieren
-cp /etc/nixos/hardware-configuration.nix ~/nixos/configurations/my-desktop/
-
-# USB kann jetzt raus
-sudo umount /mnt/usb
+cd ~/nixos-config/nixos-main
+sudo nixos-rebuild switch --flake .#my-laptop
 ```
+*Tipp: Du kannst dir in deiner `user/bash/default.nix` einen Alias wie `rebuild` dafür anlegen!*
 
-### 3. System bauen
-```bash
-cd ~/nixos
+### 3. Was tun, wenn etwas kaputt geht?
+NixOS speichert jede Version deines Systems. Wenn nach einem Rebuild gar nichts mehr geht:
+- Starte den Laptop neu.
+- Halte im Boot-Menü die **Leertaste** gedrückt.
+- Wähle einfach eine ältere "Generation" aus der Liste aus und boote sie. Alles ist sofort wieder wie vorher!
 
-# System mit deiner Config bauen und aktivieren
-sudo nixos-rebuild switch --flake . --impure
+---
 
-# Passwort für deinen User setzen (einmalig!)
-passwd user
+## 📁 Ordner-Struktur (Wo finde ich was?)
 
-# Neustarten – Hyprland startet automatisch!
-reboot
-```
+Alle Einstellungen liegen in Modulen unterteilt, damit es übersichtlich bleibt:
 
-### Startablauf nach der Installation
-```
-PC an → systemd-boot → NixOS → Auto-Login als "user"
-→ Hyprland startet → Video-Wallpaper, Cursor, Quickshell → Desktop bereit! 🚀
-```
-
-## ⌨️ Keybinds (Hyprland)
-
-`$mainMod` = **Super/Windows-Taste**
-
-### Basis
-| Keybind | Aktion |
-|---|---|
-| `Super + Q` | Ghostty Terminal öffnen |
-| `Super + C` | Fenster schließen |
-| `Super + S` | **App-Suche / Launcher** (Quickshell + FZF) |
-| `Super + V` | Fenster schwebend machen |
-| `Super + J` | Split-Richtung wechseln |
-| `Super + F` | Screenshot (Region) |
-
-### Fenster-Navigation
-| Keybind | Aktion |
-|---|---|
-| `Super + ←↑↓→` | Fokus verschieben |
-| `Super + Maus-Links` | Fenster verschieben |
-| `Super + Maus-Rechts` / `Super + M` | Fenster resizen |
-
-### Workspaces
-| Keybind | Aktion |
-|---|---|
-| `Super + 1-0` | Workspace 1-10 wechseln |
-| `Super + Shift + 1-0` | Fenster zu Workspace verschieben |
-| `Super + Mausrad` | Nächster/vorheriger Workspace |
-
-### Media / Hardware
-| Keybind | Aktion |
-|---|---|
-| `Lautstärke +/-` | Lautstärke ändern |
-| `Helligkeit +/-` | Bildschirmhelligkeit |
-| `Play/Pause/Next/Prev` | Mediensteuerung |
-
-## 📁 Projektstruktur
-
-```
+```text
 nixos-main/
-├── flake.nix                              # Flake-Einstiegspunkt (inkl. Zen Browser Flake)
+├── flake.nix                          # Der Startpunkt. Zieht Pakete (Inputs) aus dem Internet.
 ├── configurations/
-│   └── my-desktop/
-│       ├── configuration.nix              # System-Config (Boot, User, Netzwerk)
-│       └── hardware-configuration.nix     # ⚠️ Nach Installation hierhin kopieren!
+│   └── my-laptop/
+│       ├── configuration.nix          # System-Basis (Netzwerk, Audio, GPU, User-Passwort)
+│       └── hardware-configuration.nix # Hardware-Infos vom Laptop (wird lokal generiert)
 └── user/
-    ├── home.nix          # Home Manager Hauptconfig
-    ├── hypr/             # Hyprland WM Konfiguration
-    ├── hyprcursor/       # Rose Pine Cursor-Theme
-    ├── mpvpaper/         # Video-Wallpaper (mpvpaper)
-    ├── ghostty/          # Ghostty Terminal (GPU-beschleunigt, Zig)
-    ├── zed/              # Zed Editor (Haupt-IDE, GPU-beschleunigt, AI)
-    ├── neovim/           # Neovim (minimal – Fallback-Editor für Terminal)
-    ├── zen/              # Zen Browser (Firefox-basiert, externer Flake)
-    ├── fzf-launcher/     # FZF App-Launcher (Quickshell Backend)
-    ├── git/              # Git + Credential Manager
-    ├── bash/             # Bash Shell Config + Hyprland Auto-Start
-    └── nix-direnv/       # Nix + Direnv
+    ├── home.nix                       # Sammelt alle User-Programme (Home Manager)
+    ├── hypr/                          # Window Manager Config (Tastenkürzel, Gesten)
+    ├── quickshell/                    # Status-Bar Config (shell.qml)
+    ├── fzf-launcher/                  # Das Super+S Suchmenü
+    ├── ghostty/, zed/, zen/           # Einzelne Programm-Einstellungen
+    └── ...
 ```
-
-## 🔧 Nützliche Befehle
-
-| Befehl | Aktion |
-|---|---|
-| `rebuild` | System neu bauen (`sudo nixos-rebuild switch --flake . --impure`) |
-| `cleanup` | Alte Generationen löschen + rebuild (Speicher frei machen) |
-| `nvim` | Neovim öffnen (minimaler Editor für Terminal-Edits) |
-| `zed` | Zed Editor öffnen (Haupt-IDE) |
-| `zen` | Zen Browser starten |
-
-## 🔄 Etwas ändern?
-1. Config-Datei bearbeiten (z.B. mit `nvim` im Terminal oder `zed` für Projekte)
-2. `rebuild` ausführen
-3. Fertig! Bei Problemen: Beim Booten eine ältere Generation auswählen
