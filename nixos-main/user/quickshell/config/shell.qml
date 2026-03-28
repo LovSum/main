@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Io
 import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
@@ -102,24 +103,103 @@ ShellRoot {
                     }
                 }
 
-                // ── Rechts: Uhrzeit ──
-                Text {
-                    id: clock
+                // ── Rechts: Hardware & Uhrzeit ──
+                RowLayout {
+                    spacing: 16
 
-                    color: "#cdd6f4"
-                    font.pixelSize: 13
-                    font.family: "JetBrains Mono"
-                    font.bold: true
+                    // WLAN 
+                    Text {
+                        id: wifiText
+                        color: "#cdd6f4"
+                        font.pixelSize: 13
+                        font.family: "JetBrains Mono"
+                        text: "📶 ..."
 
-                    // Uhr aktualisieren
-                    property var now: new Date()
-                    text: now.toLocaleTimeString(Qt.locale("de_DE"), "HH:mm")
+                        Process {
+                            id: wifiProc
+                            command: ["sh", "-c", "nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2 | head -n 1"]
+                            running: true
+                            stdout: StdioCollector {
+                                onStreamFinished: (s) => wifiText.text = "📶 " + (s.trim() === "" ? "Offline" : s.trim())
+                            }
+                        }
+                        Timer {
+                            interval: 5000; running: true; repeat: true
+                            onTriggered: { wifiProc.running = false; wifiProc.running = true }
+                        }
 
-                    Timer {
-                        interval: 10000  // Alle 10 Sekunden
-                        running: true
-                        repeat: true
-                        onTriggered: clock.now = new Date()
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: Hyprland.dispatch("exec ghostty --title='WLAN Menu' -e nmtui")
+                        }
+                    }
+
+                    // Audio
+                    Text {
+                        id: volText
+                        color: "#cdd6f4"
+                        font.pixelSize: 13
+                        font.family: "JetBrains Mono"
+                        text: "🔊 ..."
+
+                        Process {
+                            id: volProc
+                            command: ["sh", "-c", "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100) \"%\"}'"]
+                            running: true
+                            stdout: StdioCollector {
+                                onStreamFinished: (s) => volText.text = "🔊 " + s.trim()
+                            }
+                        }
+                        Timer {
+                            interval: 2000; running: true; repeat: true
+                            onTriggered: { volProc.running = false; volProc.running = true }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: Hyprland.dispatch("exec pavucontrol")
+                        }
+                    }
+
+                    // Battery
+                    Text {
+                        id: batText
+                        color: "#cdd6f4"
+                        font.pixelSize: 13
+                        font.family: "JetBrains Mono"
+                        text: "🔋 ..."
+
+                        Process {
+                            id: batProc
+                            command: ["sh", "-c", "cat /sys/class/power_supply/BAT*/capacity | head -n 1"]
+                            running: true
+                            stdout: StdioCollector {
+                                onStreamFinished: (s) => batText.text = "🔋 " + s.trim() + "%"
+                            }
+                        }
+                        Timer {
+                            interval: 30000; running: true; repeat: true
+                            onTriggered: { batProc.running = false; batProc.running = true }
+                        }
+                    }
+
+                    // Uhrzeit
+                    Text {
+                        id: clock
+                        color: "#cdd6f4"
+                        font.pixelSize: 13
+                        font.family: "JetBrains Mono"
+                        font.bold: true
+
+                        property var now: new Date()
+                        text: now.toLocaleTimeString(Qt.locale("de_DE"), "HH:mm")
+
+                        Timer {
+                            interval: 10000
+                            running: true
+                            repeat: true
+                            onTriggered: clock.now = new Date()
+                        }
                     }
                 }
             }
