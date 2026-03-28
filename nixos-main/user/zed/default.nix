@@ -11,12 +11,8 @@
 
     # Zed Settings
     home.file.".config/zed/settings.json".text = builtins.toJSON {
-        # Theme – Dark und modern
-        theme = {
-            mode = "dark";
-            light = "One Light";
-            dark = "Andromeda";
-        };
+        # Theme – Festes dunkles Design
+        theme = "One Dark";
 
         # Font – passend zum Terminal
         buffer_font_family = "JetBrains Mono";

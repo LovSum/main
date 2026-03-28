@@ -20,6 +20,7 @@
     ./neovim        # Neovim (minimal – Fallback-Editor für Terminal)
     ./zed           # Zed Editor (Haupt-IDE, GPU-beschleunigt, AI-Integration)
     ./floorp        # Floorp Browser (Firefox-basiert)
+    ./theme         # Systemweiter Dark Mode (GTK, Qt, dconf)
     ./quickshell    # Quickshell Status-Bar (QtQuick, Hyprland-Integration)
   ];
 

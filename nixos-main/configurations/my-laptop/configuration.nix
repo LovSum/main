@@ -47,6 +47,7 @@
   # Erlaubt GUI-Passwortabfragen für Admin-Aktionen (WLAN, USB-Mount, etc.)
   # Der GUI-Agent (hyprpolkitagent) wird in der Hyprland-Config gestartet
   security.polkit.enable = true;
+  programs.dconf.enable = true;
 
   # ── Schriftarten ─────────────────────────────────────────────
   # System-weit installierte Fonts (für alle Apps, Browser, etc.)
