@@ -1,4 +1,4 @@
-zen
+floorp
 zeditor
 ghostty
 pavucontrol

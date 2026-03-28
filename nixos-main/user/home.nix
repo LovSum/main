@@ -19,7 +19,7 @@
     ./nix-direnv    # Direnv + Nix Integration für projektbasierte Shells
     ./neovim        # Neovim (minimal – Fallback-Editor für Terminal)
     ./zed           # Zed Editor (Haupt-IDE, GPU-beschleunigt, AI-Integration)
-    ./zen           # Zen Browser (Firefox-basiert, Privacy-fokussiert)
+    ./floorp        # Floorp Browser (Firefox-basiert)
     ./quickshell    # Quickshell Status-Bar (QtQuick, Hyprland-Integration)
   ];
 

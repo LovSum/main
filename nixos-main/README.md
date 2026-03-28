@@ -16,7 +16,7 @@ Das System ist minimalistisch aufgebaut. Statt fetter Desktop-Umgebungen (wie KD
 
 ### Apps
 - **Terminal:** [Ghostty](https://mitchellh.com/ghostty) (GPU-beschleunigt, extrem schnell, nutzt JetBrains Mono)
-- **Browser:** [Zen Browser](https://zen-browser.app/) (Firefox-basiert, auf Privacy und Design fokussiert)
+- **Browser:** [Floorp](https://floorp.app/) (Firefox-basiert, extrem anpassbar, vertikale Tabs)
 - **Code Editor (GUI):** [Zed](https://zed.dev/) (Rust/GPU, extrem schnell, Befehl: `zeditor`)
 - **Code Editor (Terminal):** Neovim (`nvim`, minimal konfiguriert als Fallback)
 

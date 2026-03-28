@@ -18,16 +18,11 @@
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
-		# Zen Browser – Firefox-basierter Browser (via Community-Flake)
-		zen-browser = {
-			url = "github:youwen5/zen-browser-flake";
-			# System-Libraries teilen → schnellerer Build, kein Duplizieren
-			inputs.nixpkgs.follows = "nixpkgs";
-		};
+
 	};
 
 	# Outputs: Was dieser Flake bereitstellt
-	outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, zen-browser, ... }@inputs : {
+	outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs : {
 		# NixOS System-Konfigurationen – können mit `nixos-rebuild switch --flake .` gebaut werden
 		nixosConfigurations = {
 			# Konfiguration für den Laptop
@@ -55,8 +50,7 @@
 								system = "x86_64-linux";
 								config.allowUnfree = true;
 							};
-							# Zen Browser Flake-Input für Home Manager Module
-							inherit zen-browser;
+
 						};
 					}
 				];
