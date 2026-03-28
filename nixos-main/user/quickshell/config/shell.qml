@@ -40,7 +40,7 @@ ShellRoot {
                     spacing: 4
 
                     Repeater {
-                        model: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        model: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
                         Rectangle {
                             required property int modelData
@@ -65,7 +65,7 @@ ShellRoot {
 
                             Text {
                                 anchors.centerIn: parent
-                                text: parent.modelData
+                                text: parent.modelData === 10 ? "0" : parent.modelData
                                 color: {
                                     if (Hyprland.focusedMonitor?.activeWorkspace?.id === parent.modelData) {
                                         return "#1e1e2e";  // Dunkel auf grün
