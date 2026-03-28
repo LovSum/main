@@ -4,6 +4,6 @@
 {
     # Floorp aus den offiziellen NixOS Paketen installieren
     home.packages = with pkgs; [
-        floorp
+        floorp-bin
     ];
 }
