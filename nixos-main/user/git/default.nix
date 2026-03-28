@@ -7,8 +7,8 @@
     programs.git = {
         enable = true;
         # Git Username und Email für Commits
-        userName = "outercloudstudio";
-        userEmail = "outercloudstudio@gmail.com";
+        userName = "LovSum";
+        userEmail = "LovSum@users.noreply.github.com";
 
         # Credential-Verwaltung: Speichert Login-Daten damit man nicht jedes Mal neu einloggen muss
         extraConfig.credential = {
@@ -18,7 +18,7 @@
             credentialStore = "plaintext";
 
             # GitHub-spezifischer Username für automatische Zuordnung
-            "https://github.com".username = "outercloudstudio";
+            "https://github.com".username = "LovSum";
         };
     };
 
